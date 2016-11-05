@@ -1,0 +1,722 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Compressive Sensing," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Compressive Sensing是2006年开始兴起的信号处理理论，这里简要整理下最近看到的资料。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Compressive Sensing小结">
+<meta property="og:url" content="https://anplus.github.io/2016/07/25/EE/2016-07-21-Compressive-sampling/index.html">
+<meta property="og:site_name" content="Zhenlin An's Blog">
+<meta property="og:description" content="Compressive Sensing是2006年开始兴起的信号处理理论，这里简要整理下最近看到的资料。">
+<meta property="og:updated_time" content="2016-07-26T09:08:17.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Compressive Sensing小结">
+<meta name="twitter:description" content="Compressive Sensing是2006年开始兴起的信号处理理论，这里简要整理下最近看到的资料。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://anplus.github.io/2016/07/25/EE/2016-07-21-Compressive-sampling/"/>
+
+
+  <title> Compressive Sensing小结 | Zhenlin An's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-75041209-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1259238450&web_id=1259238450" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Zhenlin An's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-projects">
+          <a href="/Projects" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            项目
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Compressive Sensing小结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-25T17:39:31+08:00" content="2016-07-25">
+              2016-07-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Signal-Processing/" itemprop="url" rel="index">
+                    <span itemprop="name">Signal Processing</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/25/EE/2016-07-21-Compressive-sampling/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/25/EE/2016-07-21-Compressive-sampling/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Compressive Sensing是2006年开始兴起的信号处理理论，这里简要整理下最近看到的资料。<br><a id="more"></a></p>
+<h1 id="1-Traditional-Sampling"><a href="#1-Traditional-Sampling" class="headerlink" title="1. Traditional Sampling"></a>1. Traditional Sampling</h1><p>经典的信号采样理论，是指在时间和空间上都均匀的采样，采样之后经原过量化变成数字信号以便于进一步处理。需要满足Nquist采样定理，才能实现完美的重构。对于时间的均匀采样，最经典的例子就是对于音频信号的采样；而对于空间上的例子就是数字图像。</p>
+<p>而传统的采样结束之后，通过很多方法可以实现无失真压缩。这就暗示：采样之后的信号依然存在着大量冗余，只是在时间或者空间域上不能充分挖掘其中的稀疏性。而传统的信号处理方法通常会采用正交变换方式,处理一组采到的值,在变换域上获得稀疏的信号。这么做的道理在于，在时间和空间上均匀的采样值，之间具有很强的相关性。信息论的信源编码定理告诉我们，码元之间的相关性越低，压缩的程度越高。这也启发我们可以进一步压缩的方向就是要破坏基之间的相关性。</p>
+<p>以一维信号为例，$x\in R^{N\times 1}$，可以通过正交变换$\Psi$压缩，各个基之间的相关系数均为零：<br>正变换$\mathbf{y}=\Psi\mathbf{x}$<br>逆变换$\mathbf{x}=\Psi^H\mathbf{y}$<br>利用$\Psi$使得$\mathbf{x}$在新的域上面分布的更集中，也就是降低$\mathbf{x}$的相关性。这样我们可以保留$\mathbf{y}$中的$K$个较大分量，将其余$N-K$个分量去掉，从而实现压缩。我们可以称$\mathbf{x}$在$\Psi$的变换域上是$K-sparse$。</p>
+<h1 id="2-Compressive-Sampling"><a href="#2-Compressive-Sampling" class="headerlink" title="2. Compressive Sampling"></a>2. Compressive Sampling</h1><p>对比于经典的采样，压缩采样的最大区别就是利用观测矩阵实现源端压缩，得到的每个采样值就是由原本一组采样的线性组合成的，而且在原始采样值具有稀疏性的时候，可以通过数量远远小于原始采样值的一组新的采样值，得到足够重构精度。这样做的好处有很多，比如在Nquist采样定理的要求下，我们必须以高于信号最高频率两倍的采样率进行采样，但是对于某些高频信号，我们的A/D很可能难以适应需要的采样率。这个时候利用压缩感知就可以在不损失太多精度的条件下，实现对信号的采样。</p>
+<p>当然，使用压缩感知需要满足一定的条件：</p>
+<ol>
+<li><p>原本的信号必须具有稀疏性。这才使得信号具有进一步压缩的能力。事实上，很多信号即使不在时间和空间上具有稀疏性，在很多变换域也都具有很好的稀疏性。</p>
+</li>
+<li><p>观测矩阵必须满足RIP准则。这指的是线性组合的系数必须要满足一定条件，使得每一个新合成的采样值都能充分反应原始信号的特性，从而使得压缩尽量不失去信息。</p>
+</li>
+</ol>
+<h1 id="3-Recovery"><a href="#3-Recovery" class="headerlink" title="3. Recovery"></a>3. Recovery</h1><p>再审视一下$ Y<em>{M} = A</em>{M*N} X_{N} , M &lt;&lt; N $，这个原始的式子。很明显这是一个欠定方程，一般来说是没有定值解的。从线性空间的角度看，可以理解为通过变换$A$将原本在$N$维空间才能表达的信号$X$，在另一个$M$维（较低维）得到表示。可以做的原因是因为$X$在原本的高维空间是稀疏的，也就是有一些基向量对于构建原始信号没有贡献。</p>
+<p>一个直观的想法就是：如果能够找到观测到的信号$Y$在高维空间重新构建所需要的最少的基向量，重新分解，再将其他基向量的系数赋予0就得到了想要恢复的信号$X$。至于如何找到最少的基向量集合，也就匹配追踪算法（Matching Pursuit）以及众多由此产生的算法要解决的问题。</p>
+<p>另一类的解法，是将解方程转化成$l_0$问题，即$arg min ||x||_0,st.Y = Ax $。虽然这也是个NP-hard<br>的问题，通过证明在这个背景下，我们在一定条件下可以将其转化成$l_1$的，从而成为一个接近凸优化的问题，来降低解法的复杂度。</p>
+<h1 id="4-Application"><a href="#4-Application" class="headerlink" title="4. Application"></a>4. Application</h1><p>直接的应用，主要是看了下RICE大学的单像素相机一些工作。毕竟这是压缩感知理论的直接应用，对于理解CS理论是如何实际提高信号处理系统的性能还是有很多帮助的。</p>
+<p>名字叫单像素相机，意思就是只是用一个光电转换的器件，以及一个A/D转换器。核心的器件是由TI公司做的一个可以控制反光角度的反光镜阵列。参照上面的公式，光电转换的到的电信号就是$Y$的一个采样值，而反光镜阵列的每次调整都会得到$A$的一行系数，而对应的$X$是完整的一张图片的全部原始采样点的光信号。这样一来，经过$M$次调整，我们就可以将一张本应有$N$个像素点的完整的图片，映射成一组长为$M$电信号。</p>
+<p>但是这里面有一个很重要的条件就是在得到对应一张图片的一组电信号的时候，图片是不能动的，这样才能保证$X$在映射成$Y$的时候没变，得到的采样才有意义。这就导致单像素相机的成像速度不会很快，而传统相机可以在短时间内，让全部像素点同时曝光，成像速度很快。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Compressive-Sensing/" rel="tag">#Compressive Sensing</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/20/EE/2016-07-20-RTI1/" rel="next" title="初识无线层析成像">
+                <i class="fa fa-chevron-left"></i> 初识无线层析成像
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/29/Notes/2016-10-29-Thinking.in.Relationship/" rel="prev" title="关于与人相处">
+                关于与人相处 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/07/25/EE/2016-07-21-Compressive-sampling/"
+     data-title="Compressive Sensing小结"
+     data-content=""
+     data-url="https://anplus.github.io/2016/07/25/EE/2016-07-21-Compressive-sampling/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/25/EE/2016-07-21-Compressive-sampling/"
+           data-title="Compressive Sensing小结" data-url="https://anplus.github.io/2016/07/25/EE/2016-07-21-Compressive-sampling/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Zhenlin An" />
+          <p class="site-author-name" itemprop="name">Zhenlin An</p>
+          <p class="site-description motion-element" itemprop="description">EE , College</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/anplus" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2687435587/" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Traditional-Sampling"><span class="nav-number">1.</span> <span class="nav-text">1. Traditional Sampling</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Compressive-Sampling"><span class="nav-number">2.</span> <span class="nav-text">2. Compressive Sampling</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Recovery"><span class="nav-number">3.</span> <span class="nav-text">3. Recovery</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Application"><span class="nav-number">4.</span> <span class="nav-text">4. Application</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhenlin An</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhenlinan"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
