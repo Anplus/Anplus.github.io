@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Zhenlin An's Blog">
 <meta property="og:description" content="今天看了第一篇无线层析成像的文章(Radio Tomographic Imaging)，作者是Joey Wilson and Neal Patwari，也是最早从事这项工作的人。其基本的原理就是：无线电波在经过物体的时候会有衰减，而在有大量的节点的无线网络中，可以检测到在各个路线经过物体的无线电波，通过分析无线电波的衰减规律，来得到物体的位置以及更多的信息。">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/a02f0343jw1f61jwa0b0aj20cp094gm3.jpg">
-<meta property="og:updated_time" content="2016-07-21T12:12:38.383Z">
+<meta property="og:updated_time" content="2017-04-27T07:17:22.426Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识无线层析成像">
 <meta name="twitter:description" content="今天看了第一篇无线层析成像的文章(Radio Tomographic Imaging)，作者是Joey Wilson and Neal Patwari，也是最早从事这项工作的人。其基本的原理就是：无线电波在经过物体的时候会有衰减，而在有大量的节点的无线网络中，可以检测到在各个路线经过物体的无线电波，通过分析无线电波的衰减规律，来得到物体的位置以及更多的信息。">
@@ -357,11 +357,11 @@
 <p>对于符号的说明：</p>
 <ol>
 <li>$ \mathbf{K} $: 传感器的个数</li>
-<li>$ \mathbf{M} = \binom{k}{2} $: 传感器之间的路径数量</li>
+<li>$ \mathbf{M} = \binom{k}{2} $ : 传感器之间的路径数量</li>
 <li>$ \mathbf{N} $: 图上分块的个数</li>
-<li>$ \mathbf{Y}<em>{M} $: $ \mathbf{Y}</em>{i} $是经过第$ i $个路径所采集的原始信号的强度</li>
-<li>$ \mathbf{W}<em>{M*N} $:  $ \mathbf{W}</em>{ij} $是对于第$ i $个路径上的信号，第$ j $个位置的影响权值</li>
-<li>$ \mathbf{x} $: 图上$ \mathbf{N} $个位置对信号的原始衰减</li>
+<li>$ \mathbf{Y}_{M} $: $ \mathbf{Y}_{i}$ 是经过第 $i$个路径所采集的原始信号的强度</li>
+<li>$ \mathbf{W}_{M*N} $:  $ \mathbf{W}_{ij} $是对于第$ i $个路径上的信号，第$ j $个位置的影响权值</li>
+<li>$ \mathbf{x} $: 图上 $ \mathbf{N} $ 个位置对信号的原始衰减</li>
 <li>$ \mathbf{n} $: 噪声</li>
 </ol>
 <hr>
@@ -372,9 +372,11 @@
 <li>得到每个点对应的权值，就得到了$ \mathbf{W} $ , 这需要我们建模实现。</li>
 <li>噪声对模型的影响，也就是得到$\mathbf{n}$ ，由实验可以发现在噪声对于RSS强度的干扰很小，可以求解的时候把这部分略去，再讨论模型的性能的时候加入噪声。<br>这样问题就转化成了上面方程的求解，从而得到了$\mathbf{x}$，再转化成位置信息。</li>
 </ol>
-<h1 id="2-Weighted-Model"><a href="#2-Weighted-Model" class="headerlink" title="2. Weighted Model"></a>2. Weighted Model</h1><p>$\mathbf{W} \Delta \mathbf{x}$反映的是Shadowing loss,只与该位置与这条路径上的发射和接受端的距离成负相关。这里只考虑一个位置到发射器和接收器的距离和在一定范围内的点，并赋予权值为距离的倒数。从而有了如下的式子：<br>$$<br>w_{ij}=\frac{1}{\sqrt{d}}<br>\begin{cases}<br>1 &amp; d_1+d_2&lt;d+\lambda \<br>0 &amp; otherwise<br>\end{cases}<br>$$<br>由几何知识，我们知道，满足这个条件的点在以发射器与接收器为焦点的椭圆中。</p>
-<h1 id="3-求解"><a href="#3-求解" class="headerlink" title="3. 求解"></a>3. 求解</h1><p>由于$ \mathbf{M}&lt;\mathbf{N} $,这是一个欠定方程求解。文中给出的是利用Tikhonov Regularization的方法，具体的思路很直接。<br>$$<br>\begin{align}<br>&amp; \text{orginal eqution:  } \mathbf{y} = \mathbf{W}\mathbf{x} \<br>&amp; \text{transform into:   } arg min f(x)=\frac{1}{2} || \mathbf{W}\mathbf{x}-\mathbf{y} ||^2 +\alpha( ||\mathbf{D}_X\mathbf{X}||^2 + ||\mathbf{D}_Y\mathbf{X}||^2 )\<br>&amp; \text{get derivation:   } f(x)’= 0 \<br>&amp; \text{get the result:   } \widehat{x} = ( \mathbf{W}^{T}\mathbf{W} +\alpha( \mathbf{D}_X^T \mathbf{D}_X + \mathbf{D}_Y^T \mathbf{D}_Y ) )^{-1}\mathbf{W}^T\mathbf{y}<br>\end{align}<br>$$</p>
-<p>联系到之前了解到的压缩感知中，解决方程的解具有稀疏性的欠定方程的众多方法。但是要想应用压缩感知的理论，需要满足两个条件：</p>
+<h1 id="2-Weighted-Model"><a href="#2-Weighted-Model" class="headerlink" title="2. Weighted Model"></a>2. Weighted Model</h1><p>$\mathbf{W} \Delta \mathbf{x}$反映的是Shadowing loss,只与该位置与这条路径上的发射和接受端的距离成负相关。这里只考虑一个位置到发射器和接收器的距离和在一定范围内的点，并赋予权值为距离的倒数。从而有了如下的式子：</p>
+<p>$$<br>w_{ij}=\frac{1}{\sqrt{d}}<br>\begin{cases}<br>1 &amp; d_1+d_2&lt;d+\lambda \\<br>0 &amp; otherwise<br>\end{cases}<br>$$</p>
+<p>由几何知识，我们知道，满足这个条件的点在以发射器与接收器为焦点的椭圆中。</p>
+<h1 id="3-求解"><a href="#3-求解" class="headerlink" title="3. 求解"></a>3. 求解</h1><p>由于$ \mathbf{M}&lt;\mathbf{N} $,这是一个欠定方程求解。文中给出的是利用Tikhonov Regularization的方法，具体的思路很直接。</p>
+<p><div><br>$$<br>\begin{split}<br>&amp; \text{orginal eqution:  } \mathbf{y} = \mathbf{W}\mathbf{x} \\<br>&amp; \text{transform into:   } arg min f(x)=\frac{1}{2} || \mathbf{W}\mathbf{x}-\mathbf{y} ||^2 +\alpha( ||\mathbf{D}_X\mathbf{X}||^2 + ||\mathbf{D}_Y\mathbf{X}||^2 )\\<br>&amp; \text{get derivation:   } f(x)’= 0 \\<br>&amp; \text{get the result:   } \widehat{x} = ( \mathbf{W}^{T}\mathbf{W} +\alpha( \mathbf{D}_X^T \mathbf{D}_X + \mathbf{D}_Y^T \mathbf{D}_Y ) )^{-1}\mathbf{W}^T\mathbf{y}<br>\end{split}<br>$$<br></div><br>联系到之前了解到的压缩感知中，解决方程的解具有稀疏性的欠定方程的众多方法。但是要想应用压缩感知的理论，需要满足两个条件：</p>
 <ol>
 <li>首先，解要有稀疏性。在这个场景中，如果区域内活动的物体很少，$\Delta \mathbf{x}$ 可以看成在有噪声环境下具有稀疏性。</li>
 <li>而且，观测矩阵满足RIP条件。在这里，这个矩阵是由空间位置确定的，到底满不满足RIP条件还需讨论。</li>
@@ -516,7 +518,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -533,7 +535,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -619,7 +621,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

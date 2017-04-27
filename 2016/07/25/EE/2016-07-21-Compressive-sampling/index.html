@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://anplus.github.io/2016/07/25/EE/2016-07-21-Compressive-sampling/index.html">
 <meta property="og:site_name" content="Zhenlin An's Blog">
 <meta property="og:description" content="Compressive Sensing是2006年开始兴起的信号处理理论，这里简要整理下最近看到的资料。">
-<meta property="og:updated_time" content="2016-07-26T09:08:17.473Z">
+<meta property="og:updated_time" content="2017-04-27T07:17:31.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Compressive Sensing小结">
 <meta name="twitter:description" content="Compressive Sensing是2006年开始兴起的信号处理理论，这里简要整理下最近看到的资料。">
@@ -360,7 +360,7 @@
 <li><p>观测矩阵必须满足RIP准则。这指的是线性组合的系数必须要满足一定条件，使得每一个新合成的采样值都能充分反应原始信号的特性，从而使得压缩尽量不失去信息。</p>
 </li>
 </ol>
-<h1 id="3-Recovery"><a href="#3-Recovery" class="headerlink" title="3. Recovery"></a>3. Recovery</h1><p>再审视一下$ Y<em>{M} = A</em>{M*N} X_{N} , M &lt;&lt; N $，这个原始的式子。很明显这是一个欠定方程，一般来说是没有定值解的。从线性空间的角度看，可以理解为通过变换$A$将原本在$N$维空间才能表达的信号$X$，在另一个$M$维（较低维）得到表示。可以做的原因是因为$X$在原本的高维空间是稀疏的，也就是有一些基向量对于构建原始信号没有贡献。</p>
+<h1 id="3-Recovery"><a href="#3-Recovery" class="headerlink" title="3. Recovery"></a>3. Recovery</h1><p>再审视一下 $Y_{M}=A_{M*N}X_{N},M&lt;&lt;N$,这个原始的式子。很明显这是一个欠定方程，一般来说是没有定值解的。从线性空间的角度看，可以理解为通过变换$A$将原本在$N$维空间才能表达的信号$X$，在另一个$M$维（较低维）得到表示。可以做的原因是因为$X$在原本的高维空间是稀疏的，也就是有一些基向量对于构建原始信号没有贡献。</p>
 <p>一个直观的想法就是：如果能够找到观测到的信号$Y$在高维空间重新构建所需要的最少的基向量，重新分解，再将其他基向量的系数赋予0就得到了想要恢复的信号$X$。至于如何找到最少的基向量集合，也就匹配追踪算法（Matching Pursuit）以及众多由此产生的算法要解决的问题。</p>
 <p>另一类的解法，是将解方程转化成$l_0$问题，即$arg min ||x||_0,st.Y = Ax $。虽然这也是个NP-hard<br>的问题，通过证明在这个背景下，我们在一定条件下可以将其转化成$l_1$的，从而成为一个接近凸优化的问题，来降低解法的复杂度。</p>
 <h1 id="4-Application"><a href="#4-Application" class="headerlink" title="4. Application"></a>4. Application</h1><p>直接的应用，主要是看了下RICE大学的单像素相机一些工作。毕竟这是压缩感知理论的直接应用，对于理解CS理论是如何实际提高信号处理系统的性能还是有很多帮助的。</p>
@@ -498,7 +498,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -515,7 +515,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -601,7 +601,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
