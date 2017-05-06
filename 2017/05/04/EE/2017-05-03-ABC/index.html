@@ -84,20 +84,20 @@
 
 
 
-<meta name="description" content="Sigcomm2013的best paper是来自华盛顿大学wisp组关于Ambient Backscatter Communication(环境反向散射波通信)的文章。这项工作实现了无源的传感器通信节点，令人十分震撼。">
+<meta name="description" content="Sigcomm2013的best paper是来自华盛顿大学wisp组关于Ambient Backscatter Communication(环境反向散射波通信)的文章。这项工作实现了无源的传感器通信节点，十分震撼。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ambient Backscatter Communication">
 <meta property="og:url" content="https://anplus.github.io/2017/05/04/EE/2017-05-03-ABC/index.html">
 <meta property="og:site_name" content="Zhenlin An's Blog">
-<meta property="og:description" content="Sigcomm2013的best paper是来自华盛顿大学wisp组关于Ambient Backscatter Communication(环境反向散射波通信)的文章。这项工作实现了无源的传感器通信节点，令人十分震撼。">
+<meta property="og:description" content="Sigcomm2013的best paper是来自华盛顿大学wisp组关于Ambient Backscatter Communication(环境反向散射波通信)的文章。这项工作实现了无源的传感器通信节点，十分震撼。">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/a02f0343ly1ffc45cig9gj20h009j75e.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/a02f0343ly1ffc4aek3jqj20l3098jrt.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/a02f0343ly1ffc4u5oa8sj20pf0dvacv.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/a02f0343ly1ffc53ticoaj20jc06baao.jpg">
-<meta property="og:updated_time" content="2017-05-06T17:30:13.638Z">
+<meta property="og:updated_time" content="2017-05-06T17:33:55.693Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ambient Backscatter Communication">
-<meta name="twitter:description" content="Sigcomm2013的best paper是来自华盛顿大学wisp组关于Ambient Backscatter Communication(环境反向散射波通信)的文章。这项工作实现了无源的传感器通信节点，令人十分震撼。">
+<meta name="twitter:description" content="Sigcomm2013的best paper是来自华盛顿大学wisp组关于Ambient Backscatter Communication(环境反向散射波通信)的文章。这项工作实现了无源的传感器通信节点，十分震撼。">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/a02f0343ly1ffc45cig9gj20h009j75e.jpg">
 
 
@@ -346,7 +346,7 @@
       
 
       
-        <p>Sigcomm2013的best paper是来自华盛顿大学wisp组关于Ambient Backscatter Communication(环境反向散射波通信)的文章。这项工作实现了无源的传感器通信节点，令人十分震撼。<br><a id="more"></a></p>
+        <p>Sigcomm2013的best paper是来自华盛顿大学wisp组关于Ambient Backscatter Communication(环境反向散射波通信)的文章。这项工作实现了无源的传感器通信节点，十分震撼。<br><a id="more"></a></p>
 <h1 id="1-整体思路"><a href="#1-整体思路" class="headerlink" title="1. 整体思路"></a>1. 整体思路</h1><p>首先，传感器节点要能够收集环境散射波的能量，为微处理器芯片和传感器供电，所以需要一个电源收集模块。环境散射波的能量只有微瓦级别，勉强能够超低功耗的单片机工作。这样其他的模块尽量要做到少耗能。其次，传感器要与外界通信，一定要有收发模块。最后加之微处理器和传感器，以及一系列用户接口。</p>
 <p><img src="http://ww1.sinaimg.cn/large/a02f0343ly1ffc45cig9gj20h009j75e.jpg" alt="整体框图">。</p>
 <h1 id="2-电源模块"><a href="#2-电源模块" class="headerlink" title="2. 电源模块"></a>2. 电源模块</h1><p>电源模块是wisp组之前的工作，利用的是一组肖特基二极管和电容组成的升压电路。利用二极管的单向导通，不断利用之前充好电的电容给新的电容充电实现升压。</p>
@@ -359,6 +359,10 @@
 <p>这里面ABC选择了FM0编码，FM0编码是双相间空号编码，工作原理是在一个位窗内采用电平变化来表示逻辑,这种编码的好处是高低电平出现的概率一样。这样均值电路得到的一定是最优的阈值，而且不会由于出现长段的零导致的充电不够。</p>
 <h1 id="5-载波检测"><a href="#5-载波检测" class="headerlink" title="5. 载波检测"></a>5. 载波检测</h1><p>多个节点通信的时候，为了避免信道冲突，我们需要实现载波检测。实际上，由于前面通信的过程的特点，导致如果有节点之间在通信，01出现的次数接近；没有通信的时候，都为0。这样我们只需要检测一段信道，统计一下01的次数就可以判断有没有通信。</p>
 <h1 id="6-问题"><a href="#6-问题" class="headerlink" title="6. 问题"></a>6. 问题</h1><p>无源节点之间通信，如何才能保证两个节点都是充好电的。文中利用一段比较长的前导码为节点充电，但是仅靠这个能不能保证每次都充好电。如果没充好电，通信一定是失败的，但是通信双方都无法解决这个问题。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
+<li>Ambient Backscatter: Wireless Communication out of Thin Air Vincent Liu, Aaron Parks, Vamsi Talla, Shyam Gollakota, David Wetherall, Joshua R. Smith, Best Paper, SIGCOMM <em>*</em> Hong Kong, August 12-16, 2013.</li>
+<li>Experimental Results with two Wireless Power Transfer Systems, Alanson Sample, Joshua R. Smith, 2009 IEEE Radio and Wireless Symposium (RawCon 2009).</li>
+</ol>
 
       
     </div>
@@ -548,7 +552,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-整体思路"><span class="nav-number">1.</span> <span class="nav-text">1. 整体思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-电源模块"><span class="nav-number">2.</span> <span class="nav-text">2. 电源模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-发射模块"><span class="nav-number">3.</span> <span class="nav-text">3. 发射模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-接收模块"><span class="nav-number">4.</span> <span class="nav-text">4. 接收模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-载波检测"><span class="nav-number">5.</span> <span class="nav-text">5. 载波检测</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-问题"><span class="nav-number">6.</span> <span class="nav-text">6. 问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-整体思路"><span class="nav-number">1.</span> <span class="nav-text">1. 整体思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-电源模块"><span class="nav-number">2.</span> <span class="nav-text">2. 电源模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-发射模块"><span class="nav-number">3.</span> <span class="nav-text">3. 发射模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-接收模块"><span class="nav-number">4.</span> <span class="nav-text">4. 接收模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-载波检测"><span class="nav-number">5.</span> <span class="nav-text">5. 载波检测</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-问题"><span class="nav-number">6.</span> <span class="nav-text">6. 问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
           </div>
         </section>
